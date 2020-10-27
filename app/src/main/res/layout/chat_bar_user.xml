@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:gravity="right"
+    android:paddingLeft="45dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingRight="10dp">
+
+    <LinearLayout
+        android:id="@+id/chat_bar_user_contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:padding="3dp"
+        android:gravity="right">
+        <TextView
+            android:id="@+id/chat_bar_user_contentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tool:text="这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容"
+            />
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/chat_bar_user_headImg"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/icon_"/>
+
+
+</LinearLayout>

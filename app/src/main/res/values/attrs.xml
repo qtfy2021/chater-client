@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="menuitemLayout">
+        <attr name="title_text" format="string"/>
+        <attr name="icon_uri" format="string"/>
+        <attr name="icon_refrence" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="chatBarLayout">
+        <attr name="content_text" format="string"/>
+        <attr name="head_uri" format="string"/>
+        <attr name="imag_src" format="reference"/>
+        <attr name="usereName" format="string"/>
+    </declare-styleable>
+    
+</resources>
