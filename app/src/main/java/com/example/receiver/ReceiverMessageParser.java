@@ -1,4 +1,4 @@
-package com.example.until;
+package com.example.receiver;
 
 import android.app.Service;
 import android.util.Log;
@@ -36,8 +36,7 @@ public class ReceiverMessageParser {
 
                     case  HEARTBEAT_PACKAGE:
                         receiver = new HeartBeatMessageReceiver();
-
-                              break;
+                        break;
                     case ERROR_MESSAGE:
                         receiver = new ErrorMessageReceiver();
                         break;

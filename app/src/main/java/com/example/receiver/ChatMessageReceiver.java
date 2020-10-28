@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.model.Dao.MessageDao;
 import com.example.model.Entity.Message;
 import com.example.until.MD5CodeCeator;
+import com.example.until.UserInfoUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,15 +18,13 @@ public class ChatMessageReceiver implements MessageReceiver{
     @Override
     public void parseMessage(JSONObject json, Service service) throws JSONException {
 
-        String curUserId = "123";
+        String curUserId = UserInfoUtil.getUserId();
         Intent intent = new Intent();
         intent.setAction("com.chater.chaterHub.messagecontent");
 
         Log.d("准备发送接受到消息广播1", "进行判断" + json.getString("toID"));
         if( json.getString("toID").equals(curUserId)){
-
             Message message = new Message();
-
 
             //判断信息是否带有图片
            //int hasPic = json.getInt("isHasPic");

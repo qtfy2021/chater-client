@@ -3,7 +3,7 @@ package com.example.net.listener;
 import android.util.Log;
 
 import com.example.service.WebSocketClientService;
-import com.example.until.ReceiverMessageParser;
+import com.example.receiver.ReceiverMessageParser;
 
 public class OnReceiverMessageListener implements WsListener{
     WebSocketClientService webSocketClientService;
