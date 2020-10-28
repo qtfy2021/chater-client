@@ -18,6 +18,7 @@ import okhttp3.Response;
 public class OkHttpOnCallback implements Callback {
 
         private boolean isSucceed = false;
+        private Response response = null;
 
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws
@@ -47,6 +48,7 @@ public class OkHttpOnCallback implements Callback {
             }else{
                 //成功
                 isSucceed = true;
+               this.response = response;
             }
 
         } catch (JSONException e) {
@@ -71,6 +73,9 @@ public class OkHttpOnCallback implements Callback {
             return isSucceed;
     }
 
+    public Response getResponse(){
+        return response;
+    }
 
 
     public String JSONTokener(String in) {

@@ -2,8 +2,9 @@ package com.example.receiver;
 
 import android.app.Service;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
+
 
 //接受信息后进行处理
 public interface MessageReceiver {

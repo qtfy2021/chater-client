@@ -5,6 +5,7 @@ package com.example.net;
 import android.util.Base64;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.until.AppContext;
 import com.example.until.Base64Uitl;
@@ -19,6 +20,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class OkHttpUploadDownLoad {
@@ -76,7 +78,29 @@ public class OkHttpUploadDownLoad {
     }
 
 
-    public static boolean netDownLoad(String url, String saveDir){
-        return false;
+    //通过设置ReadTimeout参数，例：超过5秒没有读取到内容时，就认为此次读取不到内容并
+    public static Response netDownLoad(JSONObject requestFileInfoJson, String url){
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().
+                connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .build();
+
+
+        RequestBody requestBody = RequestBody.create(
+                MediaType.parse("application/json"), JSON.toJSONString(requestFileInfoJson));
+
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+
+
+
+        OkHttpOnCallback callback = new OkHttpOnCallback();
+
+           /* execute的方法是同步方法，
+            enqueue的方法是异步方法，*/
+        okHttpClient.newCall(request).enqueue(callback);
+
+        return callback.getResponse();
     }
+
+
 }

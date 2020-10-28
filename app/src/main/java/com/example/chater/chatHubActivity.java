@@ -270,7 +270,7 @@ public class chatHubActivity extends AppCompatActivity {
     private void registerDReceiver() {
         Log.i("服务:", "chathub_activity注册接受者");
         MessageReceiver messageReceiver = new MessageReceiver();
-        IntentFilter filter = new IntentFilter("com.chater.chaterHub.messagecontent");
+        IntentFilter filter = new IntentFilter("com.chatter.chatterHub.messageContent");
         registerReceiver(messageReceiver, filter);
 
 
@@ -281,17 +281,14 @@ public class chatHubActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.chat_content_hub_sendbutton);
         sendButton.setOnClickListener(new OnClcikSendMessageListener(chatHubActivity.this, fileList));
 
-        addPicButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LinearLayout aLinearLayout = findViewById(R.id.chat_content_hub_addPicLayout);
-                if(isPickPicLayoutOpen){
-                    aLinearLayout.setVisibility(View.INVISIBLE);
-                    isPickPicLayoutOpen = false;
-                }else {
-                    aLinearLayout.setVisibility(View.VISIBLE);
-                    isPickPicLayoutOpen = true;
-                }
+        addPicButton.setOnClickListener(v -> {
+            LinearLayout aLinearLayout = findViewById(R.id.chat_content_hub_addPicLayout);
+            if(isPickPicLayoutOpen){
+                aLinearLayout.setVisibility(View.INVISIBLE);
+                isPickPicLayoutOpen = false;
+            }else {
+                aLinearLayout.setVisibility(View.VISIBLE);
+                isPickPicLayoutOpen = true;
             }
         });
     }
