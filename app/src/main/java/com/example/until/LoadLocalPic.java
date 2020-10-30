@@ -9,12 +9,12 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public class LoadLocalPic {
-    public static final String BOOK_PIC_DIR = "/sdcard/chatter/chat_pic/";
+    public static final String CHAT_PIC_DIR = "/sdcard/chatter/chat_pic/";
     public static final String USER_HEAD_ICON_DIR = "/sdcard/chatter/head_pic/";
 
 
-    public static Bitmap getBookCoverBitmap(String fileName, Activity activity){
-        return getBitmap(BOOK_PIC_DIR, fileName, activity);
+    public static Bitmap getChatPicBitmap(String fileName, Activity activity){
+        return getBitmap(CHAT_PIC_DIR, fileName, activity);
     }
 
     public static Bitmap getBitmap(String path, String fileName, Activity activity){
@@ -25,9 +25,7 @@ public class LoadLocalPic {
                 file.mkdir();
             }else {
                 FileInputStream fs = new FileInputStream(path + fileName);
-
                 bitmap  = BitmapFactory.decodeStream(fs);
-
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -9,6 +9,8 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 
 import com.example.presenter.*;
+import com.example.service.DownLoadService;
+import com.example.service.UpLoadService;
 import com.example.service.WebSocketClientService;
 import com.example.model.Dao.DataBaseManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -41,6 +43,13 @@ public class MainActivity extends FragmentActivity {
     /*service*/
     private WebSocketClientService webSocketClientService;
     private WebSocketClientService.WebSocketClientBinder binder;
+
+    private UpLoadService upLoadService;
+    private UpLoadService.UpLoadServiceBinder upLoadServiceBinder;
+
+    private DownLoadService downLoadService;
+    private DownLoadService.MyBinder downLoadServiceBinder;
+
     //服务绑定活动
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -55,6 +64,34 @@ public class MainActivity extends FragmentActivity {
         }
     };
 
+    private ServiceConnection upLoadServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            upLoadServiceBinder = (UpLoadService.UpLoadServiceBinder) iBinder;
+            upLoadService = upLoadServiceBinder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
+
+    private ServiceConnection downLoadServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            downLoadServiceBinder  = (DownLoadService.MyBinder) iBinder;
+            downLoadService = downLoadServiceBinder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +105,6 @@ public class MainActivity extends FragmentActivity {
         //初始化底部切换栏
         initFramgmenTransaction();
         switchContent(1);
-
-
 
         //绑定service
         bindService();
@@ -87,6 +122,13 @@ public class MainActivity extends FragmentActivity {
         Log.i("服务:", "在main_activity绑定");
         Intent bindIntent = new Intent(MainActivity.this, WebSocketClientService.class);
         bindService(bindIntent, serviceConnection, BIND_AUTO_CREATE);
+
+        Intent upLoadbindService = new Intent(MainActivity.this, UpLoadService.class);
+        bindService(upLoadbindService, upLoadServiceConnection, BIND_AUTO_CREATE);
+
+        Intent downLoadbindService = new Intent(MainActivity.this, DownLoadService.class);
+        bindService(downLoadbindService, downLoadServiceConnection, BIND_AUTO_CREATE);
+
     }
 
     //开启服务
@@ -210,4 +252,8 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+
+    public DownLoadService getDownLoadService() {
+        return downLoadService;
+    }
 }

@@ -3,29 +3,24 @@ package com.example.receiver;
 import android.app.Service;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 import com.example.enumClass.MessageTypeEnum;
 
-import com.example.receiver.ChatMessageReceiver;
-import com.example.receiver.DownloadMessageReceiver;
-import com.example.receiver.ErrorMessageReceiver;
-import com.example.receiver.HeartBeatMessageReceiver;
-import com.example.receiver.MessageReceiver;
-import com.example.receiver.NotificationMessageReceiver;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ReceiverMessageParser {
     public void parser(String jsonString, Service service){
         try{
-            JSONObject json = new JSONObject(jsonString);
-            int messageType = json.getInt("MessageType");
+            JSONObject json = JSONObject.parseObject(jsonString);
+            int messageType = json.getInteger("MessageType");
             MessageReceiver receiver = null;
             if(messageType > -1){
 
                 //根据消息码获取枚举类
                 MessageTypeEnum messageTypeEnum =
                         MessageTypeEnum.getMessageTypeEnumByTypeNum(messageType);
+
                 switch (messageTypeEnum){
                     case CHAT_MESSAGE:
                         receiver = new ChatMessageReceiver();
@@ -42,6 +37,7 @@ public class ReceiverMessageParser {
                         break;
                     case DOWNLOAD_MESSAGE:
                         receiver = new DownloadMessageReceiver();
+                        break;
                     default:
                         Log.i( "receviceMessageformNet:", "dose not exist messageType");
                         break;

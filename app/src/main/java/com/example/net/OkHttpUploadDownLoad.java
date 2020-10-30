@@ -80,6 +80,8 @@ public class OkHttpUploadDownLoad {
 
     //通过设置ReadTimeout参数，例：超过5秒没有读取到内容时，就认为此次读取不到内容并
     public static Response netDownLoad(JSONObject requestFileInfoJson, String url){
+
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder().
                 connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)

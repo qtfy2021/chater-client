@@ -2,7 +2,8 @@ package com.example.receiver;
 
 import android.app.Service;
 
-import org.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
+
 
 public class NotificationMessageReceiver implements MessageReceiver {
     @Override
