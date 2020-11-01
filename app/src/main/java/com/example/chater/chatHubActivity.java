@@ -39,6 +39,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -84,6 +86,9 @@ public class chatHubActivity extends AppCompatActivity {
     @BindView(R.id.chat_content_hub_addpicbutton)
     Button addPicButton;
 
+    @BindView(R.id.chat_hub_scrollView)
+    ScrollView scrollView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,7 @@ public class chatHubActivity extends AppCompatActivity {
 
         //加载聊天信息
         messagePresenter.updateUi(this, getIntent());
+        scrollView.fullScroll(View.FOCUS_DOWN);
         //QIDONGFUWU
         startJWebSClientService();
         //绑定服务

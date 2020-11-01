@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -59,14 +60,18 @@ public class ChatBarUser extends LinearLayout {
     public void addContentImg(Bitmap image) {
         if (image != null) {
             ImageView imageView = new ImageView(mContext);
-            LayoutParams params = (LayoutParams) imageView.getLayoutParams();
-            params.width = LayoutParams.MATCH_PARENT;
-            params.height = LayoutParams.WRAP_CONTENT;
+
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageBitmap(image);
-            imageView.setLayoutParams(params);
 
             contentLayout.addView(imageView);
+
+            LayoutParams params = (LayoutParams) imageView.getLayoutParams();
+            params.height = LayoutParams.WRAP_CONTENT;
+            params.width = LayoutParams.WRAP_CONTENT;
+            params.gravity = Gravity.RIGHT;
+
+            imageView.setLayoutParams(params);
         }
     }
 

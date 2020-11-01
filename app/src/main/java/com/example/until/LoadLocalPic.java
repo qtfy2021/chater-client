@@ -34,7 +34,7 @@ public class LoadLocalPic {
                  bitmap  = BitmapFactory.decodeFile(path + fileName,  options);
 
                 //计算缩放比
-                int rate = (int)(options.outHeight / (float)100);
+                int rate = (int)(options.outHeight / (float)300);
                 if (rate <= 0)
                     rate = 1;
                 options.inSampleSize = rate;
