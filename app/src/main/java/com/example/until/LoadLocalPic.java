@@ -3,6 +3,7 @@ package com.example.until;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.util.Log;
 
 import java.io.File;
@@ -24,8 +25,23 @@ public class LoadLocalPic {
             if(!file.exists()){
                 file.mkdir();
             }else {
-                FileInputStream fs = new FileInputStream(path + fileName);
-                bitmap  = BitmapFactory.decodeStream(fs);
+               // FileInputStream fs = new FileInputStream(path + fileName);
+
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;//只解析图片信息
+
+                 bitmap  = BitmapFactory.decodeFile(path + fileName,  options);
+
+                //计算缩放比
+                int rate = (int)(options.outHeight / (float)100);
+                if (rate <= 0)
+                    rate = 1;
+                options.inSampleSize = rate;
+
+                //重新载入
+                options.inJustDecodeBounds = false;
+                bitmap  = BitmapFactory.decodeFile(path + fileName,  options);
             }
         } catch (Exception e) {
             e.printStackTrace();

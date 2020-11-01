@@ -80,14 +80,9 @@ public class MyWebSocketClient extends WebSocketClient implements Client{
 
                         //开始心跳连接
                         Log.i("websocket", "准备开始心跳连接+心跳thread");
-            LocalThreadPools.getInstance(AppContext.getContext()).execute(new Runnable() {
-            @Override
-            public void run() {
-                Looper.prepare();
+
                 ConnetionAliveTest.getInstance().startHeartBeatTest();
-                Looper.loop();
-            }
-        });
+
 
 
 

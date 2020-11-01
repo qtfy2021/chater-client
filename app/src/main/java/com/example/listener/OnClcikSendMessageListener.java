@@ -125,6 +125,7 @@ public class OnClcikSendMessageListener implements View.OnClickListener{
                                 if(loadFileVo.getFile() == null){
                                     continue;
                                 }
+
                                 Pictures picture = new Pictures();
                                 //picture.setDateTime();
                                 String PicId = MD5CodeCeator.randomUUID();
@@ -147,10 +148,7 @@ public class OnClcikSendMessageListener implements View.OnClickListener{
                             if(succeedPicList.size() > 0){
                                 isHasPic = 1;
                             }
-
-
                         }
-
 
                         message.setHasPic(isHasPic);
 
@@ -187,6 +185,9 @@ public class OnClcikSendMessageListener implements View.OnClickListener{
                             Log.i("发送:", "发送失败");
                             Log.i("json错误:", e.toString());
                         }finally {
+
+
+                            Log.i("OnclickSendMessage:", "发送成功");
                         }
 
                     }

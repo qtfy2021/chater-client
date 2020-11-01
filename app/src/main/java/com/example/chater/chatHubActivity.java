@@ -41,6 +41,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +91,7 @@ public class chatHubActivity extends AppCompatActivity {
         setContentView(R.layout.content_chat_hub);
 
         ButterKnife.bind(this);
+
 
         //创建presenter
         messagePresenter = new LoadChatMessage();

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
@@ -18,7 +19,7 @@ import com.example.until.LocalThreadPools;
 import com.example.until.ToastUntil;
 
 
-
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +42,9 @@ public class UpLoadService extends Service {
     /**@param fileVoList 为LoadFileVo文件表，文件本体
      * @param requestHeadInfoList 存储对应LoadFileVo类中的文件信息类列表,上传文件的请求
      * @param url 上传接口链接**/
-    public <T> void startUpLoad(final List<LoadFileVo> fileVoList, final List<T> requestHeadInfoList ,final String url){
+    public <T> void startUpLoad(final List<LoadFileVo> fileVoList, final List<T> requestHeadInfoList ,final String url, Handler handler){
 
-        LocalThreadPools.getInstance(AppContext.getContext()).execute(
+        LocalThreadPools.getInstance(this).execute(
                 new Runnable() {
                     @Override
                     public void run() {
@@ -71,16 +72,16 @@ public class UpLoadService extends Service {
                         Log.i("failedFile Handler", list.toString());
 
 
-                        new Handler().sendMessage(osMessage);
+                        //Log.d("uploadService:Looper:", String.valueOf(Looper.myLooper().hashCode()));
+                        handler.sendMessage(osMessage);
 
-
-                        /**发送广播给对应界通知出错**/
-                        //if(list.size() > 0){
-                        //sendBroadcast
-                        // }
+                        Log.d("uploadPicRunnable", String.format("thread %d finished", this.hashCode()));
+                        //Thread.currentThread().interrupt();
 
                     }
                 }
+
+
 
         );
 

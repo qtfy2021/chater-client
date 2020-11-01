@@ -1,13 +1,10 @@
 package com.example.net;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Service;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.chater.chatHubActivity;
 import com.example.model.Entity.Pictures;
 import com.example.model.Entity.middleware.LoadFileVo;
 import com.example.service.UpLoadService;
@@ -29,10 +26,12 @@ public class SendPicListHttp {
         if(picInfoList.size() > 0){
 
             Log.d("SendPicListHttp", String.valueOf(fileVoList.size()));
-            service.startUpLoad(fileVoList, picInfoList, UrlUtil.PIC_URL.UPLOAD_URL);
 
             //等待通知
             Looper.prepare();
+
+            Log.d("sendPicList:Looper:", String.valueOf(Looper.myLooper().hashCode()));
+
             @SuppressLint("HandlerLeak")
             Handler handler = new Handler(){
                 @Override
@@ -69,7 +68,7 @@ public class SendPicListHttp {
                 }
             };
 
-
+            service.startUpLoad(fileVoList, picInfoList, UrlUtil.PIC_URL.UPLOAD_URL, handler);
             Looper.loop();
         }
 

@@ -3,6 +3,7 @@ package com.example.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Picture;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,8 @@ import com.example.chater.R;
 import com.example.chater.ChatBarFriend;
 import com.example.model.Dao.MessageDao;
 import com.example.model.Entity.Message;
+import com.example.model.Entity.Pictures;
+import com.example.until.LoadLocalPic;
 import com.example.until.ToastUntil;
 
 import java.security.PublicKey;
@@ -37,10 +40,6 @@ public class ReceiveMessageAtChatHub implements MessagePresenter {
         ChatBarFriend chatBarFriend = new ChatBarFriend (activity);
         TextView timeTextView = new TextView(activity);
 
-
-
-
-
         chatBarFriend.setContentText(message.getTextContent());
         chatBarFriend.setHeadImg(null);
 
@@ -49,19 +48,24 @@ public class ReceiveMessageAtChatHub implements MessagePresenter {
         timeTextView.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         timeTextView.setLayoutParams(lp);
-
         linearLayout.addView(timeTextView);
         linearLayout.addView(chatBarFriend);
-
     }
 
-    private void addImgToLayout(Picture picture) {
+    private void addImgToLayout(Pictures picture) {
         Activity activity = (Activity) context;
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.chat_content_hub_contentLayout);
         ChatBarFriend chatBarFriend = new ChatBarFriend (activity);
-        TextView timeTextView = new TextView(activity);
+        chatBarFriend.setHeadImg(null);
 
-        Message message = (Message) intent.getSerializableExtra("message");
+        Bitmap bitmap = LoadLocalPic.getBitmap(LoadLocalPic.CHAT_PIC_DIR, picture.getPicId() + ".jpg", activity);
+        chatBarFriend.addContentImg(bitmap);
+
+        TextView timeTextView = new TextView(activity);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        timeTextView.setLayoutParams(lp);
+        linearLayout.addView(timeTextView);
+        linearLayout.addView(chatBarFriend);
 
     }
 
@@ -75,9 +79,10 @@ public class ReceiveMessageAtChatHub implements MessagePresenter {
                 addChatToLayout(message);
 
             }else if (extras.containsKey("picture")){
-                Picture picture = (Picture) intent.getSerializableExtra("picture");
+                Pictures picture = (Pictures) intent.getSerializableExtra("picture");
+                Log.d(this.getClass().getName(), "接收到pic，准备添加pic" + picture.getPicId());
                 addImgToLayout(picture);
-            }else {
+            } else {
                 Log.e("ReceiveMessageAtChatHub", "消息解析错误");
             }
 

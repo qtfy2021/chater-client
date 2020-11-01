@@ -67,10 +67,11 @@ public class LocalThreadPools {
             public void execute(Runnable command){
                 super.execute(command);
 
-                Log.e(TAG,"子任务线程池状态");
-                Log.e(TAG,"ActiveCount="+getActiveCount());
-                Log.e(TAG,"PoolSize="+getPoolSize());
-                Log.e(TAG,"Queue="+getQueue().size());
+                Log.d(TAG,"子任务线程池状态");
+                Log.d(TAG,"ActiveCount="+getActiveCount());
+                Log.d(TAG,"PoolSize="+getPoolSize());
+                Log.d(TAG,"Queue="+getQueue().size());
+
             }
 
         };

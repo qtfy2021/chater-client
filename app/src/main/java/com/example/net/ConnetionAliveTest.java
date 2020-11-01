@@ -4,12 +4,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.example.until.AppContext;
+import com.example.until.LocalThreadPools;
+
 public class ConnetionAliveTest {
     private static ConnetionAliveTest mInstance;
     private static final long HRART_BEAT_RATE = 20 * 1000;
     private int times;
 
-    private  Handler mHander = new Handler();
+    private  Handler mHander = new Handler(Looper.getMainLooper());
     private Runnable heartBeatRunable = new Runnable() {
         @Override
         public void run() {
@@ -20,6 +23,7 @@ public class ConnetionAliveTest {
 
                 times++;
                 Log.i("心跳连接次数", String.valueOf(times));
+                Log.i("线程状态", String.valueOf(Thread.activeCount()));
                 mHander.postDelayed(this, HRART_BEAT_RATE);
         }
 
@@ -29,9 +33,9 @@ public class ConnetionAliveTest {
 
         //停止执行heartbeat线程
         mHander.removeCallbacks(heartBeatRunable);
-        new Thread() {
-            @Override
-            public void run() {
+        LocalThreadPools.getInstance(AppContext.getContext()).execute(
+
+                () -> {
                     try {
                         Log.i("正在重连中","重连中");
                         MyWebSocketClient.getInstance().reconnectBlocking();
@@ -40,8 +44,9 @@ public class ConnetionAliveTest {
                         e.printStackTrace();
                     }
 
-            }
-        }.start();
+                }
+        );
+
     }
 
     public void startHeartBeatTest() {

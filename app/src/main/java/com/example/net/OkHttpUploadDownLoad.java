@@ -13,6 +13,7 @@ import com.example.until.ToastUntil;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -44,7 +45,6 @@ public class OkHttpUploadDownLoad {
                     RequestBody.create(MediaType.parse("application/octet-stream"), file))*/
                     .build();
 
-            Log.d("生产base64的字符：", Base64Uitl.GetImageStr(file));
 
            long startTime = System.currentTimeMillis();
 
@@ -57,7 +57,8 @@ public class OkHttpUploadDownLoad {
 
            /* execute的方法是同步方法，
             enqueue的方法是异步方法，*/
-            okHttpClient.newCall(request).enqueue(callback);
+            //okHttpClient.newCall(request).enqueue(callback);
+            Response response = okHttpClient.newCall(request).execute();
 
             long endTime = System.currentTimeMillis();
 
@@ -65,9 +66,7 @@ public class OkHttpUploadDownLoad {
              //                   + "."
               //                  + String.valueOf(endTime - startTime).substring(-3);
 
-
-
-            return callback.isSucceed();
+            return response.isSuccessful();
 
 
         }catch (Exception e){
@@ -79,7 +78,7 @@ public class OkHttpUploadDownLoad {
 
 
     //通过设置ReadTimeout参数，例：超过5秒没有读取到内容时，就认为此次读取不到内容并
-    public static Response netDownLoad(JSONObject requestFileInfoJson, String url){
+    public static Response netDownLoad(JSONObject requestFileInfoJson, String url) throws IOException {
 
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder().
@@ -99,9 +98,9 @@ public class OkHttpUploadDownLoad {
 
            /* execute的方法是同步方法，
             enqueue的方法是异步方法，*/
-        okHttpClient.newCall(request).enqueue(callback);
+        Response response = okHttpClient.newCall(request).execute();
 
-        return callback.getResponse();
+        return response;
     }
 
 
