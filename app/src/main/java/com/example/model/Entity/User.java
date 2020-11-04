@@ -10,8 +10,6 @@ public class User implements Serializable {
     private String headImg_url;
     private String password;
 
-
-
     private int sex;
     private String email;
     public int getSex() {

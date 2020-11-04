@@ -18,6 +18,17 @@ public  class  DatabaseHelper extends SQLiteOpenHelper {
                                                               "`isHasPic` TINYINT ,"          +
                                                                 "PRIMARY KEY (`messageId`))";
 
+      private final static String CREATE_PICTURES_TABLE_SQL = "CREATE TABLE"  + "pictures" +"(" +
+              "picId VARCHAR(64) PRIMARY KEY NOT NULL, " +
+              "[messageId] VARCHAR(64) NOT NULL," +
+              " [sendId] VARCHAR(64)," +
+              "[recId] VARCHAR(64)," +
+              " [dateTime] DATETIME)";
+
+
+
+
+
     //带全部参数的构造函数，此构造函数必不可少
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -43,6 +54,7 @@ public  class  DatabaseHelper extends SQLiteOpenHelper {
         //创建message表
         Log.d("新建数据库message表：", "进入");
         db.execSQL(CREATE_MESSAGE_TABLE_SQL);
+        db.execSQL(CREATE_PICTURES_TABLE_SQL);
         Log.d("新建数据库message表：", "成功");
     }
 

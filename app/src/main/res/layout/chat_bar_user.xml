@@ -20,8 +20,8 @@
         android:gravity="right">
         <TextView
             android:id="@+id/chat_bar_user_contentText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="right"
             tool:text="这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容"
             />
