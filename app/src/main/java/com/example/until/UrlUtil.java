@@ -8,7 +8,7 @@ public class UrlUtil {
     }
 
     public static class API_URL{
-        public static final String LOGIN_URL = "http://172.27.35.1:7371/login";
+        public static final String LOGIN_URL = "http://172.27.35.1:7371/ls/login";
     }
 
     public static class WEB_SOCKET_URL{
