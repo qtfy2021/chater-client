@@ -147,16 +147,16 @@ public class MainActivity extends FragmentActivity {
                 //此处更新ui
             //动态注册中BroadcastReceiver和Activity也是运行在同一个进程中的，因此调用sendBraodcast()时，
             // 传入onReceive()方法里的Context对象context其实就是调用sendBroadcast()的Activty对象
-            messPresenter.updateUi(context, intent);
+            messPresenter.updateUi(MainActivity.this, intent);
         }
     }
 
 
-
     private void registerReceiver() {
-        Log.i("服务:", "main_activity注册接受者");
+        Log.i("broadcast:", "main_activity注册接受者messageReceiver");
         MessageReceiver messageReceiver = new MessageReceiver();
-        IntentFilter filter = new IntentFilter("com.chater.servicecallback.messagecontent");
+        //IntentFilter filter = new IntentFilter("com.chater.servicecallback.messagecontent");
+        IntentFilter filter = new IntentFilter("com.chatter.chatterHub.messageContent");
         registerReceiver(messageReceiver, filter);
     }
 
@@ -164,7 +164,6 @@ public class MainActivity extends FragmentActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
-
 
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
@@ -176,13 +175,10 @@ public class MainActivity extends FragmentActivity {
                     case R.id.navigation_notifications:
                         switchContent(3);
                         return true;
-
                 }
 
                 return false;
             };
-
-
 
     private void init() {
         ft = getSupportFragmentManager().beginTransaction();
@@ -242,9 +238,7 @@ public class MainActivity extends FragmentActivity {
             mContent = mfragment;
         }else {
             if (!mfragment.isAdded()) {
-
                 ft.hide(mContent).add(contentLayout.getId(), mfragment).commitAllowingStateLoss();
-
             } else {
                 ft.hide(mContent).replace(contentLayout.getId(), mfragment).commitAllowingStateLoss();
             }
@@ -252,8 +246,12 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    public Fragment getHomeFragment(){
+        return homefragment;
+    }
 
     public DownLoadService getDownLoadService() {
         return downLoadService;
     }
+
 }

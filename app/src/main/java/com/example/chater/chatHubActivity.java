@@ -272,7 +272,7 @@ public class chatHubActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
                 Log.i("onRecevice:", "chathub_activity接收到信息");
-                recMessagePresenter.updateUi(context, intent);
+                recMessagePresenter.updateUi(chatHubActivity.this, intent);
         }
     }
 
@@ -281,7 +281,6 @@ public class chatHubActivity extends AppCompatActivity {
         MessageReceiver messageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter("com.chatter.chatterHub.messageContent");
         registerReceiver(messageReceiver, filter);
-
 
 
     }

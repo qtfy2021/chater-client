@@ -20,12 +20,11 @@ import java.util.ArrayList;
 //打开对应用户的聊天时读取聊天信息
 public class LoadChatMessage implements MessagePresenter {
     @Override
-    public void updateUi(Context context, Intent intent) {
+    public void updateUi(Activity activity, Intent intent) {
 
-        Activity activity = (chatHubActivity) context;
         LinearLayout linearLayout = activity.findViewById(R.id.chat_content_hub_contentLayout);
         //读取历史聊天记录
-        ArrayList<Message> messagesList= MessageDao.getInstance().selectMessageByUserIDandFromID("123", intent.getStringExtra("userID"), context);
+        ArrayList<Message> messagesList= MessageDao.getInstance().selectMessageByUserIDandFromID("123", intent.getStringExtra("userID"), activity);
 
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -37,13 +36,13 @@ public class LoadChatMessage implements MessagePresenter {
         if(messagesList != null){
             for (Message message: messagesList) {
                 //设置显示日期view
-                TextView textView = new TextView(context);
+                TextView textView = new TextView(activity);
                 textView.setText(message.getSendTime());
                 textView.setGravity(Gravity.CENTER);
                 textView.setLayoutParams(lp);
 
                 //设置聊天内容view
-                ChatBarFriend chatBarFriendView = new ChatBarFriend(context);
+                ChatBarFriend chatBarFriendView = new ChatBarFriend(activity);
                 chatBarFriendView.setImageById(R.drawable.icon_);
                 chatBarFriendView.setContentText(message.getTextContent());
                 chatBarFriendView.setLayoutParams(lpChatbar);

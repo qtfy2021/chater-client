@@ -24,18 +24,17 @@ import java.security.PublicKey;
 //在聊天界面实时接收信息
 public class ReceiveMessageAtChatHub implements MessagePresenter {
 
-    private Context context;
+    private Activity activity;
     private Intent intent;
 
     @Override
-    public void updateUi(Context context, Intent intent) {
-        this.context = context;
+    public void updateUi(Activity activity, Intent intent) {
+        this.activity = activity;
         this.intent = intent;
         receive();
     }
 
     private void addChatToLayout(Message message) {
-        Activity activity = (Activity) context;
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.chat_content_hub_contentLayout);
         ChatBarFriend chatBarFriend = new ChatBarFriend (activity);
         TextView timeTextView = new TextView(activity);
@@ -53,7 +52,6 @@ public class ReceiveMessageAtChatHub implements MessagePresenter {
     }
 
     private void addImgToLayout(Pictures picture) {
-        Activity activity = (Activity) context;
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.chat_content_hub_contentLayout);
         ChatBarFriend chatBarFriend = new ChatBarFriend (activity);
         chatBarFriend.setHeadImg(null);

@@ -3,21 +3,25 @@ package com.example.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.LinearLayout;
 
+import androidx.fragment.app.Fragment;
+
+import com.example.chater.MainActivity;
 import com.example.chater.R;
 import com.example.chater.SelectView;
 import com.example.model.Entity.Message;
 
 public class  MessagePresenterImpl implements MessagePresenter{
 
-    private Context context;
+    private Activity activity;
     private Intent intent;
 
     //传入context和消息
     @Override
-    public void updateUi(Context context, Intent intent) {
-        this.context = context;
+    public void updateUi(Activity activity, Intent intent) {
+        this.activity = activity;
         this.intent = intent;
 
         updateHomeFragment();
@@ -28,13 +32,17 @@ public class  MessagePresenterImpl implements MessagePresenter{
     //更新聊天列表
     private void updateHomeFragment(){
 
-        Activity activity = (Activity) context;
         SelectView selectView;
 
+        Fragment homeFragment = ((MainActivity)activity).getHomeFragment();
+        if( homeFragment.isResumed() || homeFragment.isRemoving() || homeFragment == null){
+            Log.d(this.getClass().getName(), "fragment已被销毁");
+            return;
+        }
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.homeframge_layout);
         Message message = (Message) intent.getSerializableExtra("Message");
         int chatNum = linearLayout.getChildCount();
-        /*for(int i = 0; i < chatNum; i++){
+        for(int i = 0; i < chatNum; i++){
             selectView = (SelectView) linearLayout.getChildAt(i);
 
             //查看是否信息发送人是否已经在聊天列表中
@@ -49,8 +57,7 @@ public class  MessagePresenterImpl implements MessagePresenter{
                 selectView.setFromID(message.getFromID());
 
                 linearLayout.addView(selectView);
-
             }
-        }*/
+        }
     }
 }
