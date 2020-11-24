@@ -7,12 +7,9 @@ import android.util.Log;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.example.model.Dao.MessageDao;
-import com.example.model.Entity.Message;
+import com.example.model.Entity.ChatMessage;
 import com.example.until.MD5CodeCeator;
 import com.example.until.UserInfoUtil;
-
-
-import java.util.Random;
 
 public class ChatMessageReceiver implements MessageReceiver{
     @Override
@@ -24,21 +21,21 @@ public class ChatMessageReceiver implements MessageReceiver{
 
         Log.d("准备发送接受到消息广播1", "进行判断" + json.getString("toID"));
         if( json.getString("toID").equals(curUserId)){
-            Message message = new Message();
+            ChatMessage chatMessage = new ChatMessage();
 
             json.put("messageId", MD5CodeCeator.randomUUID());
 
-            message.setMessageId(json.getString("messageId"));
+            chatMessage.setMessageId(json.getString("messageId"));
 
-            message.setHasPic(json.getInteger("isHasPic"));
-            message.setToID(json.getString("toID"));
-            message.setFromID(json.getString("fromID"));
-            message.setSendTime(json.getString("sendTime"));
-            message.setTextContent(json.getString("textContent"));
+            chatMessage.setIsHasPic(json.getInteger("isHasPic"));
+            chatMessage.setToID(json.getString("toID"));
+            chatMessage.setFromID(json.getString("fromID"));
+            chatMessage.setSendTime(json.getString("sendTime"));
+            chatMessage.setTextContent(json.getString("textContent"));
 
-            Log.d("准备发送接受到消息广播2", message.getTextContent());
-            MessageDao.getInstance().addMessage(message, service);
-            intent.putExtra("message", message);
+            Log.d("准备发送接受到消息广播2", chatMessage.getTextContent());
+            MessageDao.getInstance().addMessage(chatMessage, service);
+            intent.putExtra("chatMessage", chatMessage);
             service.sendBroadcast(intent);
         }
 

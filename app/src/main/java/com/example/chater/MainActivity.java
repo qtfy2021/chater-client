@@ -36,7 +36,7 @@ public class MainActivity extends FragmentActivity {
 
     private blogFragment blogfragment;
     private homeFragment homefragment;
-    private friendFragment friendfragment;
+    private FriendFragment friendfragment;
 
     private Fragment mContent;
 
@@ -221,7 +221,7 @@ public class MainActivity extends FragmentActivity {
 
         else if(itemNum == 2) {
             if(friendfragment == null) {
-                friendfragment = new friendFragment();
+                friendfragment = new FriendFragment();
             }
             mfragment = friendfragment;
         }
@@ -240,7 +240,7 @@ public class MainActivity extends FragmentActivity {
             if (!mfragment.isAdded()) {
                 ft.hide(mContent).add(contentLayout.getId(), mfragment).commitAllowingStateLoss();
             } else {
-                ft.hide(mContent).replace(contentLayout.getId(), mfragment).commitAllowingStateLoss();
+                ft.hide(mContent).show(mfragment).commitAllowingStateLoss();
             }
             mContent = mfragment;
         }

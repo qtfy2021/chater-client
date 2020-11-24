@@ -1,7 +1,6 @@
 package com.example.presenter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -11,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import com.example.chater.MainActivity;
 import com.example.chater.R;
 import com.example.chater.SelectView;
-import com.example.model.Entity.Message;
+import com.example.model.Entity.ChatMessage;
 
 public class  MessagePresenterImpl implements MessagePresenter{
 
@@ -40,7 +39,7 @@ public class  MessagePresenterImpl implements MessagePresenter{
             return;
         }
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.homeframge_layout);
-        Message message = (Message) intent.getSerializableExtra("Message");
+        ChatMessage chatMessage = (ChatMessage) intent.getSerializableExtra("chatMessage");
         int chatNum = linearLayout.getChildCount();
         for(int i = 0; i < chatNum; i++){
             selectView = (SelectView) linearLayout.getChildAt(i);
@@ -48,13 +47,13 @@ public class  MessagePresenterImpl implements MessagePresenter{
             //查看是否信息发送人是否已经在聊天列表中
             //有则修改提示内容
             //无则添加新的聊天
-            if(selectView.getFromID().equals(message.getFromID())){
-                selectView.setTitleText(message.getTextContent());
+            if(selectView.getFromID().equals(chatMessage.getFromID())){
+                selectView.setTitleText(chatMessage.getTextContent());
             }else{
                 selectView = new SelectView(activity);
 
-                selectView.setTitleText(message.getTextContent());
-                selectView.setFromID(message.getFromID());
+                selectView.setTitleText(chatMessage.getTextContent());
+                selectView.setFromID(chatMessage.getFromID());
 
                 linearLayout.addView(selectView);
             }

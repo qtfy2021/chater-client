@@ -1,10 +1,7 @@
 package com.example.listener;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -14,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.model.Entity.ChatMessage;
 import com.example.model.Entity.Pictures;
 import com.example.model.Entity.middleware.LoadFileVo;
 import com.example.net.SendPicListHttp;
@@ -27,16 +25,14 @@ import com.example.chater.ChatBarUser;
 import com.example.chater.R;
 import com.example.chater.chatHubActivity;
 import com.example.model.Dao.MessageDao;
-import com.example.model.Entity.Message;
 import com.example.until.ToastUntil;
+import com.example.until.UserInfoUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /*发送聊天信息监听器*/
 public class OnClcikSendMessageListener implements View.OnClickListener{
@@ -58,8 +54,8 @@ public class OnClcikSendMessageListener implements View.OnClickListener{
 
         Log.i("发送：", "sendButton点击");
 
-        final String sendId = "123";
-        final String recId = "123";
+        final String sendId = UserInfoUtil.getUserId();
+        final String recId = activity.getIntent().getStringExtra("userID");
 
         EditText editText = activity.findViewById(R.id.chat_content_hub_input);
         final LinearLayout linearLayout = activity.findViewById(R.id.chat_content_hub_contentLayout);
@@ -109,12 +105,12 @@ public class OnClcikSendMessageListener implements View.OnClickListener{
                         int isHasPic = 0;
                         final List<Pictures> picsListInfo = new ArrayList<Pictures>();
 
-                        Message message = new Message();
-                        message.setMessageId(MD5CodeCeator.randomUUID());
-                        message.setSendTime(curTime);
-                        message.setTextContent(text);
-                        message.setToID(recId);
-                        message.setFromID(sendId);
+                        ChatMessage chatMessage = new ChatMessage();
+                        chatMessage.setMessageId(MD5CodeCeator.randomUUID());
+                        chatMessage.setSendTime(curTime);
+                        chatMessage.setTextContent(text);
+                        chatMessage.setToID(recId);
+                        chatMessage.setFromID(sendId);
 
 
                         //判断是否有图片
@@ -132,7 +128,7 @@ public class OnClcikSendMessageListener implements View.OnClickListener{
                                 picture.setPicId(PicId);
                                 picture.setSendId(sendId);
                                 picture.setRecId(recId);
-                                picture.setMessageId(message.getMessageId());
+                                picture.setMessageId(chatMessage.getMessageId());
 
                                 picsListInfo.add(picture);
 
@@ -150,19 +146,19 @@ public class OnClcikSendMessageListener implements View.OnClickListener{
                             }
                         }
 
-                        message.setHasPic(isHasPic);
+                        chatMessage.setIsHasPic(isHasPic);
 
                         try {
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put("MessageType", "0");
-                            Class messageClass = Class.forName("com.example.model.Entity.Message");
+                            Class messageClass = Class.forName("com.example.model.Entity.ChatMessage");
                             //获取属性名
                             String[] fleidsName = ClassFleidValueAndName.getFiledName(messageClass);
 
                             for(String fleidName: fleidsName){
                                 jsonObject.put(fleidName,
                                         //获取属性对应值
-                                        ClassFleidValueAndName.getFieldValueByName(fleidName, message));
+                                        ClassFleidValueAndName.getFieldValueByName(fleidName, chatMessage));
                             }
                             Log.d("send json" , jsonObject.toString());
                             //发送信息
@@ -171,7 +167,7 @@ public class OnClcikSendMessageListener implements View.OnClickListener{
                                 activity.getWebSocketClientService().sendMessage(jsonObject.toString());
 
                                 //存储到本地数据库
-                                MessageDao.getInstance().addMessage(message, AppContext.getContext());
+                                MessageDao.getInstance().addMessage(chatMessage, AppContext.getContext());
 
                                 /**通知更新发送ui*
                                  *

@@ -251,7 +251,6 @@ public class chatHubActivity extends AppCompatActivity {
        startService(intent2);
     }
 
-
     //服务绑定当前activity
 
 
@@ -311,7 +310,6 @@ public class chatHubActivity extends AppCompatActivity {
         //传入list引用，stringbuffer，stringbuilder同理
         adapter = new LoadPicAdapter(this, fileList, 8);
 
-
         rvPic.setAdapter(adapter);
         rvPic.setLayoutManager(new GridLayoutManager(this, 5));
 
@@ -338,7 +336,6 @@ public class chatHubActivity extends AppCompatActivity {
 
                 }else {
                     selectPicPresenter.selectpic();
-
                 }
             }
 
@@ -357,5 +354,12 @@ public class chatHubActivity extends AppCompatActivity {
     public UpLoadService getUpLoadService() {
 
         return upLoadService;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(serviceConnection);
+
     }
 }

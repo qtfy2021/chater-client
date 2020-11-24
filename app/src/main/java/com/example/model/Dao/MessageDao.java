@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.example.model.Entity.Message;
+import com.example.model.Entity.ChatMessage;
 
 import java.util.ArrayList;
 
@@ -36,10 +36,10 @@ public class MessageDao {
 
 
     //查询信息
-    public synchronized ArrayList<Message> selectMessageByUserIDandFromID
+    public synchronized ArrayList<ChatMessage> selectMessageByUserIDandFromID
                                 (String toID, String fromID, Context context){
 
-        ArrayList<Message> messageList = null;
+        ArrayList<ChatMessage> chatMessageList = null;
 
         try {
             //创建游标对象
@@ -54,17 +54,17 @@ public class MessageDao {
 
             //获取查询数据
 
-            messageList = new ArrayList<Message>();
+            chatMessageList = new ArrayList<ChatMessage>();
             while (cursor.moveToNext()) {
-                Message message = new Message();
-                message.setMessageId(cursor.getString(cursor.getColumnIndex(MESSAGE_ID)));
-                message.setFromID(cursor.getString(cursor.getColumnIndex(FROM_ID)));
-                message.setToID(cursor.getString(cursor.getColumnIndex(TO_ID)));
-                message.setTextContent(cursor.getString(cursor.getColumnIndex(TEXT_CONTENT)));
-                message.setSendTime(cursor.getString(cursor.getColumnIndex(SEND_TIME)));
-                message.setHasPic(cursor.getInt(cursor.getColumnIndex(IS_HASPIC)) );
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.setMessageId(cursor.getString(cursor.getColumnIndex(MESSAGE_ID)));
+                chatMessage.setFromID(cursor.getString(cursor.getColumnIndex(FROM_ID)));
+                chatMessage.setToID(cursor.getString(cursor.getColumnIndex(TO_ID)));
+                chatMessage.setTextContent(cursor.getString(cursor.getColumnIndex(TEXT_CONTENT)));
+                chatMessage.setSendTime(cursor.getString(cursor.getColumnIndex(SEND_TIME)));
+                chatMessage.setIsHasPic(cursor.getInt(cursor.getColumnIndex(IS_HASPIC)) );
 
-                messageList.add(message);
+                chatMessageList.add(chatMessage);
             }
 
             cursor.close();
@@ -73,21 +73,21 @@ public class MessageDao {
         }finally {
             //关闭数据库
             DataBaseManager.getInstance().closeDatabase();
-            return messageList;
+            return chatMessageList;
         }
     }
 
     //添加信息
-    public synchronized boolean addMessage(Message message, Context context){
+    public synchronized boolean addMessage(ChatMessage chatMessage, Context context){
         boolean isSucccess = false;
         try{
             ContentValues cv = new ContentValues();
-            cv.put(MESSAGE_ID, message.getMessageId());
-            cv.put(FROM_ID, message.getFromID());
-            cv.put(TO_ID, message.getToID());
-            cv.put(TEXT_CONTENT, message.getTextContent());
-            cv.put(SEND_TIME, message.getSendTime());
-            cv.put(IS_HASPIC, message.getIsHasPic());
+            cv.put(MESSAGE_ID, chatMessage.getMessageId());
+            cv.put(FROM_ID, chatMessage.getFromID());
+            cv.put(TO_ID, chatMessage.getToID());
+            cv.put(TEXT_CONTENT, chatMessage.getTextContent());
+            cv.put(SEND_TIME, chatMessage.getSendTime());
+            cv.put(IS_HASPIC, chatMessage.getIsHasPic());
 
             DataBaseManager.getInstance().getDatabase(context)
                     .insert(MESSAGE_TABLE_NAME, null, cv);

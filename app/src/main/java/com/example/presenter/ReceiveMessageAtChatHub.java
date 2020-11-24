@@ -1,10 +1,8 @@
 package com.example.presenter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Picture;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -13,13 +11,9 @@ import android.widget.TextView;
 
 import com.example.chater.R;
 import com.example.chater.ChatBarFriend;
-import com.example.model.Dao.MessageDao;
-import com.example.model.Entity.Message;
+import com.example.model.Entity.ChatMessage;
 import com.example.model.Entity.Pictures;
 import com.example.until.LoadLocalPic;
-import com.example.until.ToastUntil;
-
-import java.security.PublicKey;
 
 //在聊天界面实时接收信息
 public class ReceiveMessageAtChatHub implements MessagePresenter {
@@ -34,16 +28,16 @@ public class ReceiveMessageAtChatHub implements MessagePresenter {
         receive();
     }
 
-    private void addChatToLayout(Message message) {
+    private void addChatToLayout(ChatMessage chatMessage) {
         LinearLayout linearLayout = (LinearLayout) activity.findViewById(R.id.chat_content_hub_contentLayout);
         ChatBarFriend chatBarFriend = new ChatBarFriend (activity);
         TextView timeTextView = new TextView(activity);
 
-        chatBarFriend.setContentText(message.getTextContent());
+        chatBarFriend.setContentText(chatMessage.getTextContent());
         chatBarFriend.setHeadImg(null);
 
-        Log.d("准备添加到好友回复", message.getTextContent() );
-        timeTextView.setText(message.getSendTime());
+        Log.d("准备添加到好友回复", chatMessage.getTextContent() );
+        timeTextView.setText(chatMessage.getSendTime());
         timeTextView.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         timeTextView.setLayoutParams(lp);
@@ -73,8 +67,8 @@ public class ReceiveMessageAtChatHub implements MessagePresenter {
         if(extras != null){
 
             if (extras.containsKey("message")){
-                Message message = (Message) intent.getSerializableExtra("message");
-                addChatToLayout(message);
+                ChatMessage chatMessage = (ChatMessage) intent.getSerializableExtra("chatMessage");
+                addChatToLayout(chatMessage);
 
             }else if (extras.containsKey("picture")){
                 Pictures picture = (Pictures) intent.getSerializableExtra("picture");

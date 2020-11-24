@@ -18,13 +18,12 @@ public  class  DatabaseHelper extends SQLiteOpenHelper {
                                                               "`isHasPic` TINYINT ,"          +
                                                                 "PRIMARY KEY (`messageId`))";
 
-      private final static String CREATE_PICTURES_TABLE_SQL = "CREATE TABLE"  + "pictures" +"(" +
-              "picId VARCHAR(64) PRIMARY KEY NOT NULL, " +
-              "[messageId] VARCHAR(64) NOT NULL," +
-              " [sendId] VARCHAR(64)," +
-              "[recId] VARCHAR(64)," +
-              " [dateTime] DATETIME)";
-
+      private final static String CREATE_PICTURES_TABLE_SQL = "CREATE TABLE "  + "pictures" +"(" +
+                                                      "picId VARCHAR(64) PRIMARY KEY NOT NULL, " +
+                                                      "[messageId] VARCHAR(64) NOT NULL," +
+                                                      " [sendId] VARCHAR(64)," +
+                                                      "[recId] VARCHAR(64)," +
+                                                      " [dateTime] DATETIME)";
 
 
 

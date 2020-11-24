@@ -1,12 +1,11 @@
 package com.example.model.Entity;
 
-import com.example.model.Entity.Message;
-
 import java.io.Serializable;
 
 public class User implements Serializable {
     private String userId;
     private String userName;
+
     private String headImg_url;
     private String password;
     private int sex;
@@ -38,9 +37,6 @@ public class User implements Serializable {
     public String getUserNameString() {
         return userName;
     }
-    public String getHeadImgString() {
-        return headImg_url;
-    }
 
     public String getUserIdString() {
         return userId;
@@ -54,8 +50,11 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
+    public String getHeadImg_url() {
+        return headImg_url;
+    }
 
-    private void setHeadImg(String headImg_url) {
+    public void setHeadImg_url(String headImg_url) {
         this.headImg_url = headImg_url;
     }
 

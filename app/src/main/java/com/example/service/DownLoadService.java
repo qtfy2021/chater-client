@@ -104,7 +104,7 @@ public class DownLoadService extends Service {
 
 
             Thread.currentThread().interrupt();
-            /*Message message = new Message();
+            /*ChatMessage message = new ChatMessage();
             message.obj = pictures;
             message.what = 02;
             new Handler().sendMessage(message);*/

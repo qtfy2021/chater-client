@@ -11,7 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.listener.SelectViewOnclickListener;
+import com.example.until.UserInfoUtil;
 
+/**
+ * 消息处理在对应activity
+ *
+ * */
 public class homeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
@@ -38,9 +43,9 @@ public class homeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        final SelectView selectview1 = getView().findViewById(R.id.selecteview_item);
+        selectview1 = getView().findViewById(R.id.selecteview_item);
         selectview1.setImageId(R.drawable.icon_);
-        selectview1.setFromID("123");
+        selectview1.setFromID(UserInfoUtil.getUserId());
 //        selectview1.setOnClickListener(new View.OnClickListener(){
 //            @Override
 //            public void onClick(View view){
@@ -68,9 +73,16 @@ public class homeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        if(!hidden){
+
+        }
+    }
+
     //接受activty传来的消息
-
-
 
     //在Activity中加载fragment时会要求实现onFragmentInteraction(Uri uri)方法
     //此方法主要作用是从fragment向activity传递数据
@@ -78,4 +90,5 @@ public class homeFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
