@@ -21,11 +21,15 @@ import android.widget.LinearLayout;
 import com.example.ViewAdapter.FriendListAdapter;
 import com.example.contacts.FriendListFragmentContact;
 import com.example.model.Entity.User;
+import com.example.model.Entity.middleware.FriendListItem;
+import com.example.model.Entity.middleware.NewFriend;
 import com.example.presenter.LoadFriendListPresenterImpl;
 import com.example.until.AppContext;
 import com.example.until.ToastUntil;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,7 +51,7 @@ public class FriendFragment extends Fragment implements FriendListFragmentContac
     private String mParam1;
     private String mParam2;
 
-    private List<User> friendList;
+    private List<FriendListItem> friendList;
 
     //presenter
     FriendListFragmentContact.LoadFriendListPresenter loadFriendListPresenter;
@@ -141,13 +145,16 @@ public class FriendFragment extends Fragment implements FriendListFragmentContac
 
     private void initRecycleView(){
         //
-        friendList = new ArrayList<>();
+        friendList = new LinkedList<>();
         User user = new User();
         user.setUserName("张京华");
         User user2 = new User();
         user.setUserName("花守海露希");
-        friendList.add(user);
-        friendList.add(user2);
+        User user3 = new User();
+        user.setUserName("凤玲天天");
+        friendList.add(new FriendListItem(user));
+        friendList.add(new FriendListItem(user2));
+        friendList.add(new FriendListItem(new NewFriend(user3)));
         //
 
         friendListAdapter = new FriendListAdapter(getContext(), friendList);
@@ -181,12 +188,21 @@ public class FriendFragment extends Fragment implements FriendListFragmentContac
 
     private void initListener(){
 
-        friendListAdapter.setOnItemClickListener(new FriendListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
+        friendListAdapter.setOnItemClickListener(position -> {
 
-                loadFriendListPresenter.StartActivity(chatHubActivity.class, position);
-                Log.d("FriendFragment", "选择：" + friendList.get(position).getUserNameString() );
+            loadFriendListPresenter.StartActivity(chatHubActivity.class, position);
+            Log.d("FriendFragment", "选择：" + friendList.get(position).getUser().getUserNameString() );
+        });
+
+        friendListAdapter.setAddFriendConfirmBtnClickListener(new FriendListAdapter.AddFriendConfirmBtnClickListener() {
+            @Override
+            public void onAdd(int position) {
+                Logger.d("点击了接受" + friendList.get(position).getNewFriend().getUser().getUserNameString());
+            }
+
+            @Override
+            public void onCancel(int postion) {
+
             }
         });
     }
